@@ -20,7 +20,7 @@ public class SubscribeBlogPage {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(subscribeBlogSection));
     }
 
-    public void enterValidEmail(String name) {
+    public void enterEmail(String name) {
         By inputSelector = By.xpath("//input[@value='Enter your email address']");
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(inputSelector));
         WebElement inputElement = driver.findElement(inputSelector);
@@ -37,14 +37,25 @@ public class SubscribeBlogPage {
         Thread.sleep(500);
     }
 
-    public void switchTo1Tab()  {
+    public void switchToSecondTab() {
+        if (getTabsCount() > 1) {
+            String[] windowHandles = driver.getWindowHandles().toArray(new String[]{});
+            driver.switchTo().window(windowHandles[1]);
+        }
+    }
+
+    public void switchToFirstTab() {
         String[] windowHandles = driver.getWindowHandles().toArray(new String[]{});
-        driver.switchTo().window(windowHandles[1]);
+        driver.switchTo().window(windowHandles[0]);
     }
 
     public int getTabsCount() {
         String[] windowHandles = driver.getWindowHandles().toArray(new String[]{});
         return windowHandles.length;
+    }
+
+    public boolean hasErrorMessage() {
+        return driver.findElements(By.xpath("//div[@data-test-id=error-message]")).size() > 0;
     }
 }
 
